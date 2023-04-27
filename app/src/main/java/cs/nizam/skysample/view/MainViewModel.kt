@@ -10,13 +10,15 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class MainViewModel(val repository: AssetsRepository) : ViewModel() {
+class MainViewModel(private val repository: AssetsRepository) : ViewModel() {
     private val _fullMovieList = arrayListOf<Movie>()
     private var _filterText = ""
     private val _movieList = MutableLiveData<List<Movie>>()
     val movieList: LiveData<List<Movie>> = _movieList
     private val _showProgressBar = MutableLiveData(false)
     val showProgressBar: LiveData<Boolean> = _showProgressBar
+    private val _errorMessage = MutableLiveData("")
+    val errorMessage: LiveData<String> = _errorMessage
 
     init {
         loadMovieList()
@@ -26,9 +28,11 @@ class MainViewModel(val repository: AssetsRepository) : ViewModel() {
         viewModelScope.launch {
             repository.getPageContent()
                 .onStart {
+                    _errorMessage.value = ""
                     _showProgressBar.postValue(true)
                 }.catch { err ->
                     _showProgressBar.postValue(false)
+                    _errorMessage.value = err.message
                 }
                 .collect { list ->
                     _showProgressBar.postValue(false)

@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -13,6 +14,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import cs.nizam.skysample.R
 import cs.nizam.skysample.databinding.ActivityMainBinding
+import cs.nizam.skysample.util.isInternetAvailable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +35,15 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity,
                     resources.getInteger(R.integer.grid_span_count)
                 )
+        }
+        mainViewModel.errorMessage.observeForever { error ->
+            if (error.isNotEmpty()) {
+                if (!isInternetAvailable(this)) {
+                    Toast.makeText(this, "Please check your network connection", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

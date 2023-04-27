@@ -24,7 +24,7 @@ object RetrofitClientInstance {
             .addInterceptor { chain ->
                 var request = chain.request()
                 request = if (isInternetAvailable(context))
-                    request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
+                    request.newBuilder().header("Cache-Control", "public, max-age=" + 60 * 10).build()
                 else
                     request.newBuilder()
                         .header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 10)
