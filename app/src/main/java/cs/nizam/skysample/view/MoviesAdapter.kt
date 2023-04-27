@@ -9,24 +9,7 @@ import cs.nizam.skysample.data.model.Movie
 import cs.nizam.skysample.databinding.MovieItemBinding
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
-    private val movieList = listOf<Movie>(
-        Movie(title = "First", "Genre1", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-        Movie(title = "Second", "Genre2", null),
-    )
+    private var _movieList = listOf<Movie>()
 
     class MoviesViewHolder(private val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -36,6 +19,11 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
             }
 
         }
+    }
+
+    fun updateData(newData:List<Movie>) {
+        _movieList = newData
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -49,10 +37,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        holder.bind(movieList[position])
+        holder.bind(_movieList[position])
     }
 
     override fun getItemCount(): Int {
-        return movieList.size;
+        return _movieList.size;
     }
 }

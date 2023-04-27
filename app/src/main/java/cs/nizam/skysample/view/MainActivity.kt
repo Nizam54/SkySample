@@ -13,18 +13,19 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel:MainViewModel by viewModel()
+    private lateinit var movieAdapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        movieAdapter = MoviesAdapter()
         binding.apply {
             viewModel = this@MainActivity.mainViewModel
             lifecycleOwner = this@MainActivity
+            adapter = movieAdapter
+            layoutManager =
+                GridLayoutManager(this@MainActivity, resources.getInteger(R.integer.grid_span_count))
         }
-
-        binding.adapter = MoviesAdapter()
-        binding.layoutManager =
-            GridLayoutManager(this, resources.getInteger(R.integer.grid_span_count))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
