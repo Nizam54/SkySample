@@ -1,4 +1,4 @@
-package cs.nizam.skysample.di
+package cs.nizam.skysample.data.di
 
 import cs.nizam.skysample.data.repository.AssetsRepository
 import cs.nizam.skysample.data.repository.AssetsRepoImpl

@@ -1,7 +1,7 @@
 package cs.nizam.skysample
 
 import android.app.Application
-import cs.nizam.skysample.di.appModule
+import cs.nizam.skysample.data.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
