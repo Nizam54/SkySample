@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel:MainViewModel by viewModel()
+    private val mainViewModel: MainViewModel by viewModel()
     private lateinit var movieAdapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
             adapter = movieAdapter
             layoutManager =
-                GridLayoutManager(this@MainActivity, resources.getInteger(R.integer.grid_span_count))
+                GridLayoutManager(
+                    this@MainActivity,
+                    resources.getInteger(R.integer.grid_span_count)
+                )
         }
     }
 
@@ -38,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         val searchView = menu!!.findItem(R.id.action_search)
             .actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     when {

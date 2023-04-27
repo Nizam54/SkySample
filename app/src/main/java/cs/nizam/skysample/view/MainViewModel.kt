@@ -46,7 +46,8 @@ class MainViewModel(val repository: AssetsRepository) : ViewModel() {
                 val filteredList = arrayListOf<Movie>()
                 for (item in _fullMovieList) {
                     if (item.title!!.lowercase().contains(query.lowercase()) ||
-                        item.genre!!.lowercase().contains(query.lowercase()))  {
+                        item.genre!!.lowercase().contains(query.lowercase())
+                    ) {
                         filteredList.add(item)
                     }
                 }

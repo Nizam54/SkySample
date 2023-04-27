@@ -21,7 +21,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         }
     }
 
-    fun updateData(newData:List<Movie>) {
+    fun updateData(newData: List<Movie>) {
         _movieList = newData
         notifyDataSetChanged()
     }
@@ -41,6 +41,6 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return _movieList.size;
+        return _movieList.size
     }
 }
