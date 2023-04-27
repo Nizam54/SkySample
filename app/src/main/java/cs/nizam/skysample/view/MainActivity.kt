@@ -1,14 +1,18 @@
 package cs.nizam.skysample.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
+import android.view.View
+import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import cs.nizam.skysample.R
 import cs.nizam.skysample.databinding.ActivityMainBinding
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -36,11 +40,42 @@ class MainActivity : AppCompatActivity() {
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
+                if (query != null) {
+                    when {
+                        query.length >= 3 -> {
+                            mainViewModel.filterList(query)
+                        }
+                        query.isEmpty() -> {
+                            mainViewModel.filterList(query)
+                        }
+                        else -> {
+                            val snack = Snackbar.make(
+                                binding.list,
+                                "Please enter at least 3 chars to search",
+                                Snackbar.LENGTH_SHORT
+                            )
+                            val view: View = snack.view
+                            val params =
+                                view.layoutParams as FrameLayout.LayoutParams
+                            params.gravity = Gravity.BOTTOM
+                            view.layoutParams = params
+                            snack.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+                            snack.show()
+                        }
+                    }
+                }
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                TODO("Not yet implemented")
+                if (newText != null) {
+                    if (newText.length >= 3 || newText.isEmpty()) {
+                        mainViewModel.filterList(newText)
+                    } else {
+                        mainViewModel.filterList("")
+                    }
+                }
+                return false
             }
         })
         return true
