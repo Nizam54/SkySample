@@ -21,15 +21,18 @@ object RetrofitClientInstance {
             .readTimeout(TIME_OUT, TimeUnit.SECONDS)
             .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
             .cache(myCache)
-            .addInterceptor { chain ->
+            .addNetworkInterceptor { chain ->
                 var request = chain.request()
-                request = if (isInternetAvailable(context))
-                    request.newBuilder().header("Cache-Control", "public, max-age=" + 60 * 10).build()
-                else
-                    request.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 10)
+                val cacheHeaderValue =
+                    if (isInternetAvailable(context)) "public, max-age="+ 60 * 10 else "public, only-if-cached, max-stale="+ 60 * 10
+                request = request.newBuilder()
+                        .header("Cache-Control", cacheHeaderValue)
                         .build()
-                chain.proceed(request)
+                val response = chain.proceed(request)
+                response.newBuilder()
+                    .removeHeader("Cache-Control")
+                    .header("Cache-Control", cacheHeaderValue)
+                    .build()
             }
             .build()
 
